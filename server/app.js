@@ -21,7 +21,6 @@ document.getElementById("searchTxt").addEventListener("keypress", async (event) 
 
             console.log(data);
 
-            // Update the HTML elements with the fetched data
             document.getElementById("temp").innerHTML = `${data.current.temp_c}°C`;
             document.getElementById("location").innerHTML = data.location.country;
             document.getElementById("wetherImg").src = data.current.condition.icon;
@@ -45,7 +44,7 @@ document.getElementById("searchTxt").addEventListener("keypress", async (event) 
     }
 });
 
-// Also, keep the existing click event listener for the "Search" button as it is
+
 document.getElementById("searchBtn").addEventListener("click", async () => {
     try {
         const searchVal = document.getElementById("searchTxt").value;
@@ -64,16 +63,32 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
 
         console.log(data);
 
-        // Update the HTML elements with the fetched data
+        
         document.getElementById("temp").innerHTML = `${data.current.temp_c}°C`;
         document.getElementById("location").innerHTML = data.location.country;
-        document.getElementById("wetherImg").src = data.current.condition.icon;
+        document.getElementById("wetherimg").src = data.current.condition.icon;
         document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c}°C`;
         document.getElementById("humidity").innerHTML = data.current.humidity + "%";
         document.getElementById("wind").innerHTML = `Wind: ${data.current.wind_kph} km/h`;
         document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`;
         document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`;
         document.getElementById("daylength").innerHTML = `${data.location.localtime}`;
+
+        document.getElementById("wetherImgOne").src =`${data.forecast.forecastday[0].hour[7].condition.icon}`
+        document.getElementById("tempTOne").innerHTML =`${data.forecast.forecastday[0].hour[7].temp_c}`
+
+        document.getElementById("wetherImgTwo").src =`${data.forecast.forecastday[0].hour[14].condition.icon}`
+        document.getElementById("tempTTwo").innerHTML =`${data.forecast.forecastday[0].hour[14].temp_c}`
+
+        document.getElementById("wetherImgThree").src =`${data.forecast.forecastday[0].hour[19].condition.icon}`
+        document.getElementById("tempThree").innerHTML =`${data.forecast.forecastday[0].hour[19].temp_c}`
+
+        document.getElementById("tConditionText").innerHTML =`${data.forecast.forecastday[1].day.condition.text}`
+        document.getElementById("wetherTypeImg").src =`${data.forecast.forecastday[1].day.condition.icon}`
+        document.getElementById("wetherTypeTemp").innerHTML =`${data.forecast.forecastday[1].day.avgtemp_c}`
+
+
+
 
         const uvElement = document.getElementById("uv");
 
@@ -97,7 +112,7 @@ function getLocation() {
     }
 }
 
-// Function to handle successful location retrieval
+
 function showPosition(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
@@ -117,7 +132,7 @@ function showPosition(position) {
 
 }
 
-// Function to handle location retrieval errors
+
 function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -137,7 +152,7 @@ function showError(error) {
 
 
 function reverseGeocode(latitude, longitude) {
-    var apiKey = 'cf1a76b073cb456498c2a2964e8dfd0f'; // Replace with your OpenCage API key
+    var apiKey = 'cf1a76b073cb456498c2a2964e8dfd0f'; 
     var apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
 
     fetch(apiUrl)
@@ -146,7 +161,7 @@ function reverseGeocode(latitude, longitude) {
             if (data.results.length > 0) {
                 var locationData = data.results[0].components;
 
-                // Extract the desired component (e.g., city)
+                
                 var locationName = locationData.city || locationData.town || locationData.village || locationData.county;
 
                 console.log("Location Name: " + locationName);
@@ -159,9 +174,10 @@ function reverseGeocode(latitude, longitude) {
         .catch(error => console.error("Error fetching location name:", error));
 }
 
-// Call the getLocation function to start the process
 getLocation();
 
+
+//digital clock 
 const hourEl = document.getElementById("hour");
 const minutesEl = document.getElementById("minutes");
 const secondEl = document.getElementById("seconds");
