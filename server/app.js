@@ -28,15 +28,11 @@ document.getElementById("searchTxt").addEventListener("keypress", async (event) 
                     //Today'highlight end
 
                     //Today sunset start
-                    document.getElementById("tConditionText").innerHTML = `${data.forecast.forecastday[0].day.condition.text}`
-                    document.getElementById("wetherTypeImg").src = `${data.forecast.forecastday[0].day.condition.icon}`
-                    document.getElementById("wetherTypeTemp").innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`
-
                     document.getElementById("wetherImgOne").src = `${data.forecast.forecastday[0].hour[7].condition.icon}`
-                    document.getElementById("tempTOne").innerHTML = `${data.forecast.forecastday[0].hour[7].temp_c} °C`
+                    document.getElementById("tempTOne").innerHTML = `${data.forecast.forecastday[0].hour[7].temp_c}°C`
 
                     document.getElementById("wetherImgTwo").src = `${data.forecast.forecastday[0].hour[14].condition.icon}`
-                    document.getElementById("tempTTwo").innerHTML = `${data.forecast.forecastday[0].hour[14].temp_c} °C`
+                    document.getElementById("tempTTwo").innerHTML = `${data.forecast.forecastday[0].hour[14].temp_c}°C`
 
                     document.getElementById("wetherImgThree").src = `${data.forecast.forecastday[0].hour[19].condition.icon}`
                     document.getElementById("tempThree").innerHTML = `${data.forecast.forecastday[0].hour[19].temp_c} °C`
@@ -79,10 +75,6 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                 //Today'highlight end
 
                 //Today sunset start
-                document.getElementById("tConditionText").innerHTML = `${data.forecast.forecastday[0].day.condition.text}`
-                document.getElementById("wetherTypeImg").src = `${data.forecast.forecastday[0].day.condition.icon}`
-                document.getElementById("wetherTypeTemp").innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`
-
                 document.getElementById("wetherImgOne").src = `${data.forecast.forecastday[0].hour[7].condition.icon}`
                 document.getElementById("tempTOne").innerHTML = `${data.forecast.forecastday[0].hour[7].temp_c} °C`
 
@@ -101,17 +93,6 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
         console.error('Error during fetch:', error);
     }
 });
-
-
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-
 
 //digital clock start 
 const hourEl = document.getElementById("hour");
@@ -147,8 +128,6 @@ updateClock();
 
 //Current Location start
 
-
-
 function currentLocation() {
     const city = "Homagama";
     let reop = {
@@ -174,10 +153,6 @@ function currentLocation() {
             //Today'highlight end
 
             //Today sunset start
-            document.getElementById("tConditionText").innerHTML = `${data.forecast.forecastday[1].day.condition.text}`
-            document.getElementById("wetherTypeImg").src = `${data.forecast.forecastday[1].day.condition.icon}`
-            document.getElementById("wetherTypeTemp").innerHTML = `${data.forecast.forecastday[1].day.avgtemp_c} °C`
-
             document.getElementById("wetherImgOne").src = `${data.forecast.forecastday[0].hour[7].condition.icon}`
             document.getElementById("tempTOne").innerHTML = `${data.forecast.forecastday[0].hour[7].temp_c} °C`
 
@@ -190,51 +165,62 @@ function currentLocation() {
             document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
             document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
             document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
-            //Today sunset end
 
-            //start upcomming
-            document.getElementById("dayAForcast").innerHTML = `${data.forecast.forecastday[2].day.condition.text}`
-            document.getElementById("dayAImg").src = `${data.forecast.forecastday[2].day.condition.icon}`
-            document.getElementById("dayATemp").innerHTML = `${data.forecast.forecastday[2].day.avgtemp_c} °C`
+             //Today sunset end
+            const startDate = new Date(`${data.forecast.forecastday[0].date}`);
+            let currentDay = new Date(startDate);
 
-            // document.getElementById("nextDayForcast").innerHTML = `${data.forecast.forecastday[3].day.condition.text}`
-            // document.getElementById("dayAImg").src = `${data.forecast.forecastday[3].day.condition.icon}`
-            // document.getElementById("nextDayImg").innerHTML = `${data.forecast.forecastday[3].day.avgtemp_c} °C`
-            //end upcomming
-
-        })
-        .catch(error => {
-            console.error("Error:", error);
-
-        });
-}
-
-wetherTime("2023-10-01", "2023-09-25");
-
-function wetherTime(startDate, endDate) {
-    console.log(startDate, endDate);
-    const dateIds = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"];
-
-    const city2 = "Galle";
-    let reop = {
-        method: 'POST'
-    };
-    
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city2}&dt=${startDate}&end_dt=${endDate}`, reop)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
             for (let i = 0; i < 7; i++) {
-                
-                document.getElementById(dateIds[i]).innerHTML = `${data.forecast.forecastday[0].day.condition.text}`;
+                //hethuw blann to ISOString, split
+                const formattedDate = currentDay.toISOString().split('T')[0];
+
+                fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=London&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                        document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                        document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+
+                currentDay.setDate(currentDay.getDate() + 1);
             }
+
+    
+            const startDay = new Date(`${data.forecast.forecastday[0].date}`);
+            let currentDays = new Date(startDay);
+            
+            for (let i = 3; i > 0; i--) {
+                // Format the currentDay as a string
+                const formattedDate = currentDays.toISOString().split('T')[0];
+            
+                fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=London&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Note: Assuming you want to display the average temperature for each day
+                        document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
+                        document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                        document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        // Handle the error here if needed
+                    });
+            
+                // Decrement the currentDays by one day
+                currentDays.setDate(currentDays.getDate() - 1);
+            }
+            
+ 
+
         })
         .catch(error => {
             console.error("Error:", error);
-            // Handle the error here if needed
+
         });
 }
-
 
 currentLocation();
 

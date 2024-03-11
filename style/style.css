@@ -1,8 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@300;400;600&family=Montserrat:wght@300;400;600&family=Noto+Sans+Sinhala:wght@100..900&family=Poppins:wght@200;400;500;600&display=swap');
+
+#searchTxt{
+    background-color: #495158;
+    color: aliceblue;
+
+}
+
+#searchTxt::placeholder{
+    color: aliceblue;
+}
+
+#searchBtn{
+    width: 45%;
+}
+
+#clock{
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #f0f8ff;
+    background-color: #495158;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #f0f8ff;
+    box-sizing: border-box;
+  
+}
+#clock:hover{
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+}
+
+#locationIcon{
+    width: 3rem;
+    height: 3rem;
+    color: aliceblue;
+}
+
 #location{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
+    
+    font-weight: bold;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;	
+    color:white;
+}
 
+#locationTextColor{
+    color: aliceblue;
+    background-image:url('../images/dark-weather-ominous-clouds-dramatic-landscape-generative-ai\ \(1\).jpg');
+    height: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+    
+}
+
+#weatherHighlights{
+    color: #f0f8ff;
+    background: linear-gradient(to right, #2C3137, #000000, #2D3237);
+
+}
+
+.allItems{
+    background-color: #3d3f41;
+    color: aliceblue;
+    font-weight: 500;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#today{
+    font-size: 30px;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+#todaysWether{
+    background-color: #495158;
+}
+
+.todyWeatherTemp{
+    background-color: #2C3137;
+    color: aliceblue;
+}
+
+.sunrice{
+    font-weight: bolder;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: aliceblue;
+}
+
+.upcomigBack{
+    background-color: #495158;
+    color: aliceblue;
+}
+
+#upcoming{
+    font-size: 30px;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+.pastLeft{
+    padding:1rem 2rem;
+    width: auto;
+    background-color:#2C3137;
+    color: aliceblue;
+}
+
+#past{
+    font-size: 30px;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+
+#weatherFuture{
+    background-color: #495158;
+    color: aliceblue;
+    border-radius: 20px;
+}
+
+.futureDay{
+    width: auto;
+    background-color:#2C3137;
+    color: aliceblue;
+    width: 8rem;
+    border-radius: 70px;
+    justify-content: center;
+}
+
+#future{
+    font-size: 30px;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: aliceblue;
 }
