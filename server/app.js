@@ -372,3 +372,5 @@ iconMoon.addEventListener('click', () => {
     } else {
         iconMoon.src = './images/icons8-light-on-48.png'; // Change to sun icon in light mode
     }});
+
+   
