@@ -1,10 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@300;400;600&family=Montserrat:wght@300;400;600&family=Noto+Sans+Sinhala:wght@100..900&family=Poppins:wght@200;400;500;600&display=swap');
 
+
+.light-mode {
+    background-color: #fafdfb; 
+}
+
+.light-mode .card {
+    background-color: #90d5d4;
+     /* Card background color for light mode */
+}
+
+/* Styles for dark mode */
+.dark-mode {
+    color: #fff; /* Text color for dark mode */
+    background-color: #222; /* Background color for dark mode */
+}
+
+.dark-mode .card {
+    background-color: #5e5f60; /* Card background color for dark mode */
+}
+
 #searchTxt{
     background-color: #495158;
     color: aliceblue;
 
 }
+
 
 #searchTxt::placeholder{
     color: aliceblue;
@@ -23,8 +44,8 @@
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #f0f8ff;
-    background-color: #495158;
+    color: #000000;
+    background-color: #ffff;
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -34,7 +55,7 @@
 }
 #clock:hover{
     cursor: pointer;
-    color: rgb(255, 255, 255);
+    
 }
 
 #locationIcon{

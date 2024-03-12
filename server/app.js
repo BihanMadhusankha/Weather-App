@@ -360,3 +360,15 @@ upComingKandy();
 upComingColombo();
 
 //up coming city end
+
+const iconMoon = document.getElementById('iconMoon');
+const body = document.body;
+
+iconMoon.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    // Change icon based on dark mode state
+    if (body.classList.contains('dark-mode')) {
+        iconMoon.src = './images/icons8-light-off-48.png'; // Change to moon icon in dark mode
+    } else {
+        iconMoon.src = './images/icons8-light-on-48.png'; // Change to sun icon in light mode
+    }});

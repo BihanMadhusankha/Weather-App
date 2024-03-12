@@ -12,25 +12,38 @@
 
 </head>
 
-<body class="justify-content-center bg-black ">
+<body class="justify-content-center light-mode" >
 
     <nav class="mt-4">
         <div class="container ">
             <div class="row d-flex align-items-center justify-content-between">
                 <div class="col d-flex align-items-center justify-content-between">
-                    <form class="d-flex" role="search">
+                    <form class="d-flex justify-content-between" role="search">
                         <input class="form-control me-2 p-md-2   accordion accordion-flush" type="search"
                             placeholder="Search" aria-label="Search" id="searchTxt">
-                        <button class="btn btn-outline-light  " value="search" type="button"
-                            id="searchBtn">Search</button>
+                        <button class="btn btn-outline-light  " value="search" type="button" id="searchBtn">Search
+                        </button>
+
+
                     </form>
-                    <div class="clock align-items-center" id="clock">
-                        <span id="hour">00</span>:
-                        <span id="minutes">00</span>:
-                        <span id="seconds">00</span>
-                        <span id="ampm">AM</span>
+
+                    <div class="d-flex align-items-center">
+                        <img src="./images/icons8-light-on-48.png" id="iconMoon" alt="Toggle Dark Mode/Light Mode">
+
+                        <div class="clock align-items-center" id="clock">
+
+                            <span id="hour">00</span>:
+                            <span id="minutes">00</span>:
+                            <span id="seconds">00</span>
+                            <span id="ampm">AM</span>
+                        </div>
+    
                     </div>
+                    
+
                 </div>
+
+
 
             </div>
 
@@ -69,14 +82,16 @@
                     <h3 class="m-3" id="highlight">Today's Highlight</h3>
                 </div>
 
-                <div class="row d-flex flex-row " >
+                <div class="row d-flex flex-row ">
                     <div class="row m-auto  gap-4  justify-content-center  ">
 
                         <div class="allItems col-sm-5 card mb-2">
                             <div class="card-body">
                                 <h5>UV Index</h5>
                                 <p id="uv">UV</p>
-                                <img width="64" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-ultraviolet-lighting-flaticons-lineal-color-flat-icons-2.png" alt="external-ultraviolet-lighting-flaticons-lineal-color-flat-icons-2"/>
+                                <img width="64" height="64"
+                                    src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-ultraviolet-lighting-flaticons-lineal-color-flat-icons-2.png"
+                                    alt="external-ultraviolet-lighting-flaticons-lineal-color-flat-icons-2" />
                             </div>
                         </div>
 
@@ -86,21 +101,27 @@
                             <div class="card-body">
                                 <h5>Chance of Rain</h5>
                                 <p id="chanceofrain">Rain</p>
-                                <img width="48" height="48" src="https://img.icons8.com/emoji/48/umbrella-with-rain-drops.png" alt="umbrella-with-rain-drops"/>                            </div>
+                                <img width="48" height="48"
+                                    src="https://img.icons8.com/emoji/48/umbrella-with-rain-drops.png"
+                                    alt="umbrella-with-rain-drops" />
+                            </div>
                         </div>
 
                         <div class="allItems col-sm-5 card mb-3">
                             <div class="card-body">
                                 <h5>Wind Status</h5>
                                 <p id="wind">Wind</p>
-                                <img width="48" height="48" src="https://img.icons8.com/color/48/windy-weather--v2.png" alt="windy-weather--v2"/>                            </div>
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/windy-weather--v2.png"
+                                    alt="windy-weather--v2" />
+                            </div>
                         </div>
 
                         <div class="allItems col-sm-5 card mb-3 ">
                             <div class="card-body">
                                 <h5>Humidity</h5>
                                 <p id="humidity">Humidity</p>
-                                <img width="48" height="48" src="https://img.icons8.com/color/48/hygrometer.png" alt="hygrometer"/>
+                                <img width="48" height="48" src="https://img.icons8.com/color/48/hygrometer.png"
+                                    alt="hygrometer" />
                             </div>
                         </div>
 
@@ -157,10 +178,10 @@
 
                     <div class="row col-sm-6 mt-2  ">
                         <h6 class="sunrice  ">Sunrise</h6>
-                        <h4  id="sunrise">12:00 AM</h4>
+                        <h4 id="sunrise">12:00 AM</h4>
 
                         <h6 class="sunrice  ">Sunset</h6>
-                        <h4  id="sunset">12:00 PM</h4>
+                        <h4 id="sunset">12:00 PM</h4>
                     </div>
 
                     <div class="row col-sm-6 justify-content-center align-items-center ">
@@ -256,12 +277,12 @@
 
 
     <div class="container card mt-3 justify-content-center mb-3 rounded-2 " id="weatherFuture">
-        <div class="row justify-content-center " >
+        <div class="row justify-content-center ">
             <div class="row">
                 <h4 class="m-3" id="future">Future Seven Day's</h4>
 
             </div>
-            
+
             <div class="row justify-content-center gap-md-5   m-3">
                 <div class=" col-md-1  col-sm-4 justify-content-center mb-2 ">
                     <div class="futureDay card">
@@ -276,7 +297,7 @@
 
                 <div class="col-md-1  col-sm-4 justify-content-center mb-2">
                     <div class="futureDay card">
-                        <div class="card-body">  
+                        <div class="card-body">
                             <p id="day2">Mon</p>
 
                             <p id="day2Temp">10 C</p>
