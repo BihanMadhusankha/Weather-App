@@ -1,142 +1,188 @@
+
 document.getElementById("searchTxt").addEventListener("keypress", async (event) => {
     if (event.key === "Enter") {
+
         try {
             const searchVal = document.getElementById("searchTxt").value;
-            let reop = { method: 'POST' };
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`, reop);
-            const data = await response.json();
 
-            // location start
-            document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
-            document.getElementById("location").innerHTML = data["location"]["name"];
-            document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
-            document.getElementById("wetherimg").src = data["current"]["condition"]["icon"];
-            // location end
+            let reop = {
+                method: 'POST'
+            };
+            fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`, reop)
+                .then(response => response.json())
+                .then(data => {
 
-            // Today'highlight start
-            document.getElementById("uv").innerHTML = data["current"]["uv"];
-            document.getElementById("chanceofrain").innerHTML = `${data.forecast.forecastday[0].day.daily_chance_of_rain} %`;
-            document.getElementById("humidity").innerHTML = data["current"]["humidity"] + "%";
-            document.getElementById("wind").innerHTML = `Wind: ${data["current"]["wind_kph"]} km/h`;
-            // Today'highlight end
+                    //location start
+                    document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
+                    document.getElementById("location").innerHTML = data["location"]["name"];
+                    document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
+                    document.getElementById("wetherimg").src = data["current"]["condition"]["icon"];
+                    //location end
 
-            // Today sunset start
-            for (var i = 7; i < 22; i += 7) {
-                document.getElementById(`wetherImg${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].condition.icon}`;
-                document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
-            }
 
-            document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`;
-            document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`;
-            document.getElementById("dayLength").innerHTML = `${data.location.localtime}`;
-            // Today sunset end
+                    //Today'highlight start
+                    document.getElementById("uv").innerHTML = data["current"]["uv"];
+                    document.getElementById("chanceofrain").innerHTML = `${data.forecast.forecastday[0].day.daily_chance_of_rain} %`;
+                    document.getElementById("humidity").innerHTML = data["current"]["humidity"] + "%";
+                    document.getElementById("wind").innerHTML = `Wind: ${data["current"]["wind_kph"]} km/h`;
+                    //Today'highlight end
 
-            // future days start
-            const startDate = new Date(`${data.forecast.forecastday[0].date}`);
-            let currentDay = new Date(startDate);
+                    //Today sunset start
+                    
+                    for (var i = 7; i < 22; i += 7) {
+                        document.getElementById(`wetherImg${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].condition.icon}`
+                        document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
 
-            for (let i = 0; i < 7; i++) {
-                // hethuw blann toISOString, split
-                const formattedDate = currentDay.toISOString().split('T')[0];
+                    }
 
-                const futureResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`);
-                const futureData = await futureResponse.json();
+                    document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
+                    document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
+                    document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
+                    //Today sunset end
 
-                document.getElementById(`day${i + 1}`).innerHTML = `${futureData.forecast.forecastday[0].date}`;
-                document.getElementById(`day${i + 1}Temp`).innerHTML = `${futureData.forecast.forecastday[0].day.avgtemp_c} °C`;
-                document.getElementById(`day${i + 1}Img`).src = `${futureData.forecast.forecastday[0].day.condition.icon}`;
-            }
-            // End future days
+                    //future days start
+                    const startDate = new Date(`${data.forecast.forecastday[0].date}`);
+                    let currentDay = new Date(startDate);
 
-            // Start past days
-            const startDay = new Date(`${data.forecast.forecastday[0].date}`);
-            let currentDays = new Date(startDay);
+                    for (let i = 0; i < 7; i++) {
+                        //hethuw blann toISOString, split
+                        const formattedDate = currentDay.toISOString().split('T')[0];
 
-            for (let i = 3; i > 0; i--) {
-                const formattedDate = currentDays.toISOString().split('T')[0];
+                        fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                                document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                                document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                            });
 
-                const pastResponse = await fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`);
-                const pastData = await pastResponse.json();
+                        currentDay.setDate(currentDay.getDate() + 1);
+                    }
+                    //End feuture days
 
-                document.getElementById(`Day${i}`).innerHTML = `${pastData.forecast.forecastday[0].date}`;
-                document.getElementById(`Day${i}Temp`).innerHTML = `${pastData.forecast.forecastday[0].day.avgtemp_c} °C`;
-                document.getElementById(`day${i}AImg`).src = `${pastData.forecast.forecastday[0].day.condition.icon}`;
-            }
-            // End past days
+                    //Start past days
+                    const startDay = new Date(`${data.forecast.forecastday[0].date}`);
+                    let currentDays = new Date(startDay);
+
+                    for (let i = 3; i > 0; i--) {
+
+                        const formattedDate = currentDays.toISOString().split('T')[0];
+
+                        fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
+                                document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                                document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                            });
+
+                        currentDays.setDate(currentDays.getDate() - 1);
+                    }
+
+                    //End past days
+                })
         } catch (error) {
             console.error('Error during fetch:', error);
         }
     }
 });
 
+
 document.getElementById("searchBtn").addEventListener("click", async () => {
     try {
         const searchVal = document.getElementById("searchTxt").value;
-        let reop = { method: 'POST' };
-        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`, reop);
-        const data = await response.json();
 
-        // location start
-        document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
-        document.getElementById("location").innerHTML = data["location"]["name"];
-        document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
-        document.getElementById("wetherimg").src = data["current"]["condition"]["icon"];
-        // location end
+        let reop = {
+            method: 'POST'
+        };
+        fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`, reop)
+            .then(response => response.json())
+            .then(data => {
 
-        // Today'highlight start
-        document.getElementById("uv").innerHTML = data["current"]["uv"];
-        document.getElementById("chanceofrain").innerHTML = `${data.forecast.forecastday[0].day.daily_chance_of_rain} %`;
-        document.getElementById("humidity").innerHTML = data["current"]["humidity"] + "%";
-        document.getElementById("wind").innerHTML = `Wind: ${data["current"]["wind_kph"]} km/h`;
-        // Today'highlight end
+                //location start
+                document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
+                document.getElementById("location").innerHTML = data["location"]["name"];
+                document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
+                document.getElementById("wetherimg").src = data["current"]["condition"]["icon"];
+                //location end
 
-        // Today sunset start
-        for (var i = 7; i < 22; i += 7) {
-            document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`;
-            document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
-        }
 
-        document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`;
-        document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`;
-        document.getElementById("dayLength").innerHTML = `${data.location.localtime}`;
-        // Today sunset end
+                //Today'highlight start
+                document.getElementById("uv").innerHTML = data["current"]["uv"];
+                document.getElementById("chanceofrain").innerHTML = `${data.forecast.forecastday[0].day.daily_chance_of_rain} %`;
+                document.getElementById("humidity").innerHTML = data["current"]["humidity"] + "%";
+                document.getElementById("wind").innerHTML = `Wind: ${data["current"]["wind_kph"]} km/h`;
+                //Today'highlight end
 
-        const startDate = new Date(`${data.forecast.forecastday[0].date}`);
-        let currentDay = new Date(startDate);
+                //Today sunset start
+                for (var i = 7; i < 22; i += 7) {
+                    document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
+                    document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
+    
+                }
+    
+                document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
+                document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
+                document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
+                //Today sunset end
 
-        for (let i = 0; i < 7; i++) {
-            // hethuw blann toISOString, split
-            const formattedDate = currentDay.toISOString().split('T')[0];
 
-            const futureResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`);
-            const futureData = await futureResponse.json();
+                const startDate = new Date(`${data.forecast.forecastday[0].date}`);
+                let currentDay = new Date(startDate);
 
-            document.getElementById(`day
+                for (let i = 0; i < 7; i++) {
+                    //hethuw blann toISOString, split
+                    const formattedDate = currentDay.toISOString().split('T')[0];
 
-${i + 1}`).innerHTML = `${futureData.forecast.forecastday[0].date}`;
-            document.getElementById(`day${i + 1}Temp`).innerHTML = `${futureData.forecast.forecastday[0].day.avgtemp_c} °C`;
-            document.getElementById(`day${i + 1}Img`).src = `${futureData.forecast.forecastday[0].day.condition.icon}`;
-        }
+                    fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                            document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                            document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
 
-        const startDay = new Date(`${data.forecast.forecastday[0].date}`);
-        let currentDays = new Date(startDay);
+                    currentDay.setDate(currentDay.getDate() + 1);
+                }
 
-        for (let i = 3; i > 0; i--) {
-            const formattedDate = currentDays.toISOString().split('T')[0];
 
-            const pastResponse = await fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`);
-            const pastData = await pastResponse.json();
+                const startDay = new Date(`${data.forecast.forecastday[0].date}`);
+                let currentDays = new Date(startDay);
 
-            document.getElementById(`Day${i}`).innerHTML = `${pastData.forecast.forecastday[0].date}`;
-            document.getElementById(`Day${i}Temp`).innerHTML = `${pastData.forecast.forecastday[0].day.avgtemp_c} °C`;
-            document.getElementById(`day${i}AImg`).src = `${pastData.forecast.forecastday[0].day.condition.icon}`;
-        }
+                for (let i = 3; i > 0; i--) {
+
+                    const formattedDate = currentDays.toISOString().split('T')[0];
+
+                    fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
+                            document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                            document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
+
+                    currentDays.setDate(currentDays.getDate() - 1);
+                }
+
+            })
     } catch (error) {
         console.error('Error during fetch:', error);
     }
 });
 
-// digital clock start
+//digital clock start 
 const hourEl = document.getElementById("hour");
 const minutesEl = document.getElementById("minutes");
 const secondEl = document.getElementById("seconds");
@@ -152,7 +198,6 @@ function updateClock() {
         h = h - 12
         ampm = "PM"
     }
-
     h = h < 10 ? "0" + h : h;
     m = m < 10 ? "0" + m : m;
     s = s < 10 ? "0" + s : s;
@@ -167,46 +212,53 @@ function updateClock() {
 }
 
 updateClock();
-// digital clock end
+//digital clock end
 
-// Current Location start
+//Current Location start
+
 function currentLocation() {
     const city = "Homagama";
-    let reop = { method: 'POST' };
+    let reop = {
+        method: 'POST'
+    };
     fetch(`http://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&days=7&aqi=yes&alerts=yes`, reop)
         .then(response => response.json())
         .then(data => {
-            // location start
+
+            //location start
             document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
             document.getElementById("location").innerHTML = data["location"]["name"];
             document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
             document.getElementById("wetherimg").src = data["current"]["condition"]["icon"];
-            // location end
+            //location end
 
-            // Today'highlight start
+
+            //Today'highlight start
             document.getElementById("uv").innerHTML = data["current"]["uv"];
             document.getElementById("chanceofrain").innerHTML = `${data.forecast.forecastday[0].day.daily_chance_of_rain} %`;
             document.getElementById("humidity").innerHTML = data["current"]["humidity"] + "%";
             document.getElementById("wind").innerHTML = `Wind: ${data["current"]["wind_kph"]} km/h`;
-            // Today'highlight end
+            //Today'highlight end
 
-            // Today sunset start
+            //Today sunset start
+           
             for (var i = 7; i < 22; i += 7) {
-                document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`;
+                document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
                 document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
+
             }
 
-            document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`;
-            document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`;
-            document.getElementById("dayLength").innerHTML = `${data.location.localtime}`;
+            document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
+            document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
+            document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
 
-            // Today sunset end
+            //Today sunset end
 
             const startDate = new Date(`${data.forecast.forecastday[0].date}`);
             let currentDay = new Date(startDate);
 
             for (let i = 0; i < 7; i++) {
-                // hethuw blann toISOString, split
+                //hethuw blann toISOString, split
                 const formattedDate = currentDay.toISOString().split('T')[0];
 
                 fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
@@ -223,10 +275,12 @@ function currentLocation() {
                 currentDay.setDate(currentDay.getDate() + 1);
             }
 
+
             const startDay = new Date(`${data.forecast.forecastday[0].date}`);
             let currentDays = new Date(startDay);
 
             for (let i = 3; i > 0; i--) {
+
                 const formattedDate = currentDays.toISOString().split('T')[0];
 
                 fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
@@ -242,29 +296,37 @@ function currentLocation() {
 
                 currentDays.setDate(currentDays.getDate() - 1);
             }
+
         })
         .catch(error => {
             console.error("Error:", error);
+
         });
 }
 
 currentLocation();
-// Current Location end
 
-// Upcoming city start
+//Current Location end
+
+
+//Up coming city start
+
 function upComingColombo() {
     const city2 = "Galle"
-    let reop = { method: 'POST' };
-    fetch(`http://api.weatherapi.com/v1/current.json?key
-
-=f1850d9ec02649c4b0a84749240403&q=${city2}&days=7`, reop)
+    let reop = {
+        method: 'POST'
+    };
+    fetch(`http://api.weatherapi.com/v1/current.json?key=f1850d9ec02649c4b0a84749240403&q=${city2}&days=7`, reop)
         .then(response => response.json())
         .then(data => {
+
             console.log(data);
             document.getElementById("upTempOne").innerHTML = data["current"]["temp_c"] + "°C";
             document.getElementById("upForcastOne").innerHTML = data["current"]["condition"]["text"];
             document.getElementById("upCityOne").innerHTML = data["location"]["name"];
             document.getElementById("upImgOne").src = data["current"]["condition"]["icon"];
+
+
         })
         .catch(error => {
             console.error("Error:", error);
@@ -274,15 +336,19 @@ function upComingColombo() {
 
 function upComingKandy() {
     const Kandy = "kandy"
-    let reop = { method: 'POST' };
+    let reop = {
+        method: 'POST'
+    };
     fetch(`http://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${Kandy}&days=7`, reop)
         .then(response => response.json())
         .then(data => {
+
             console.log(data);
             document.getElementById("upTempTwo").innerHTML = data["current"]["temp_c"] + "°C";
             document.getElementById("upForcastTwo").innerHTML = data["current"]["condition"]["text"];
             document.getElementById("upCityTwo").innerHTML = data["location"]["name"];
             document.getElementById("upImgTwo").src = data["current"]["condition"]["icon"];
+
         })
         .catch(error => {
             console.error("Error:", error);
@@ -292,4 +358,5 @@ function upComingKandy() {
 
 upComingKandy();
 upComingColombo();
-// up coming city end
+
+//up coming city end
