@@ -28,7 +28,7 @@ document.getElementById("searchTxt").addEventListener("keypress", async (event) 
                     //Today'highlight end
 
                     //Today sunset start
-                    
+
                     for (var i = 7; i < 22; i += 7) {
                         document.getElementById(`wetherImg${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].condition.icon}`
                         document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
@@ -105,7 +105,22 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
             .then(response => response.json())
             .then(data => {
 
-                //location start
+                document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                    document.getElementById("temp").innerHTML = data["current"]["temp_f"] + " F";
+                });
+
+                document.getElementById('celsiusBtn').addEventListener('click', () => {
+                    document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
+                });
+
+                document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                    document.getElementById("feelslike").innerHTML = data["current"]["feelslike_c"] + " F";
+                });
+
+                document.getElementById('celsiusBtn').addEventListener('click', () => {
+                    document.getElementById("feelslike").innerHTML = data["current"]["feelslike_c"] + " °C";
+                });
+
                 document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
                 document.getElementById("location").innerHTML = data["location"]["name"];
                 document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
@@ -121,12 +136,26 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                 //Today'highlight end
 
                 //Today sunset start
-                for (var i = 7; i < 22; i += 7) {
+                for (let i = 7; i < 22; i += 7) {
                     document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
                     document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
     
+                    document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                        document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_f} F`;
+                        document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
+    
+                    });
+    
+                    document.getElementById('celsiusBtn').addEventListener('click', () => {
+                        document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
+                        document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
+    
+                    });
+    
+    
                 }
     
+
                 document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
                 document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
                 document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
@@ -143,6 +172,19 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                     fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                         .then(response => response.json())
                         .then(data => {
+                            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                                document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                                document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
+                                document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+    
+                            });
+    
+                            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                                document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                                document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                                document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+    
+                            });
                             document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
                             document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                             document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
@@ -165,6 +207,19 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                     fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                         .then(response => response.json())
                         .then(data => {
+                            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                                document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                                document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
+                                document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+    
+                            });
+    
+                            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                                document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                                document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                                document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+    
+                            });
                             document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
                             document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                             document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
@@ -225,7 +280,25 @@ function currentLocation() {
         .then(response => response.json())
         .then(data => {
 
+
             //location start
+
+            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                document.getElementById("temp").innerHTML = data["current"]["temp_f"] + " F";
+            });
+
+            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
+            });
+
+            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                document.getElementById("feelslike").innerHTML = data["current"]["feelslike_f"] + " F";
+            });
+
+            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                document.getElementById("feelslike").innerHTML = data["current"]["feelslike_c"] + " °C";
+            });
+
             document.getElementById("temp").innerHTML = data["current"]["temp_c"] + " °C";
             document.getElementById("location").innerHTML = data["location"]["name"];
             document.getElementById("feelslike").innerHTML = `Feels like ${data.current.feelslike_c} °C`;
@@ -241,13 +314,26 @@ function currentLocation() {
             //Today'highlight end
 
             //Today sunset start
-           
-            for (var i = 7; i < 22; i += 7) {
+
+            for (let i = 7; i < 22; i += 7) {
                 document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
                 document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
 
-            }
+                document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                    document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} F`;
+                    document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
 
+                });
+
+                document.getElementById('celsiusBtn').addEventListener('click', () => {
+                    document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
+                    document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
+
+                });
+
+
+            }
+            
             document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
             document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
             document.getElementById("dayLength").innerHTML = `${data.location.localtime}`
@@ -264,6 +350,19 @@ function currentLocation() {
                 fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&days=7&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                     .then(response => response.json())
                     .then(data => {
+                        document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                            document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                            document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
+                            document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+
+                        });
+
+                        document.getElementById('celsiusBtn').addEventListener('click', () => {
+                            document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
+                            document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                            document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+
+                        });
                         document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
                         document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                         document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
@@ -286,6 +385,19 @@ function currentLocation() {
                 fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                     .then(response => response.json())
                     .then(data => {
+                        document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                            document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
+                            document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
+                            document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+
+                        });
+
+                        document.getElementById('celsiusBtn').addEventListener('click', () => {
+                            document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
+                            document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
+                            document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
+
+                        });
                         document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
                         document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                         document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
@@ -298,6 +410,8 @@ function currentLocation() {
             }
 
         })
+
+
         .catch(error => {
             console.error("Error:", error);
 
@@ -320,7 +434,14 @@ function upComingColombo() {
         .then(response => response.json())
         .then(data => {
 
-            console.log(data);
+
+            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                document.getElementById("upTempOne").innerHTML = data["current"]["temp_f"] + " F";
+            });
+
+            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                document.getElementById("upTempOne").innerHTML = data["current"]["temp_c"] + " °C";
+            });
             document.getElementById("upTempOne").innerHTML = data["current"]["temp_c"] + "°C";
             document.getElementById("upForcastOne").innerHTML = data["current"]["condition"]["text"];
             document.getElementById("upCityOne").innerHTML = data["location"]["name"];
@@ -344,6 +465,13 @@ function upComingKandy() {
         .then(data => {
 
             console.log(data);
+            document.getElementById('fahrenheitBtn').addEventListener('click', () => {
+                document.getElementById("upTempTwo").innerHTML = data["current"]["temp_f"] + " F";
+            });
+
+            document.getElementById('celsiusBtn').addEventListener('click', () => {
+                document.getElementById("upTempTwo").innerHTML = data["current"]["temp_c"] + " °C";
+            });
             document.getElementById("upTempTwo").innerHTML = data["current"]["temp_c"] + "°C";
             document.getElementById("upForcastTwo").innerHTML = data["current"]["condition"]["text"];
             document.getElementById("upCityTwo").innerHTML = data["location"]["name"];
@@ -366,11 +494,11 @@ const body = document.body;
 
 iconMoon.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
-    // Change icon based on dark mode state
     if (body.classList.contains('dark-mode')) {
-        iconMoon.src = './images/icons8-light-off-48.png'; // Change to moon icon in dark mode
+        iconMoon.src = './images/icons8-light-off-48.png';
     } else {
-        iconMoon.src = './images/icons8-light-on-48.png'; // Change to sun icon in light mode
-    }});
+        iconMoon.src = './images/icons8-light-on-48.png';
+    }
+});
 
-   
+
