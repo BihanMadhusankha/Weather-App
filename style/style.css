@@ -100,7 +100,18 @@ cursor: pointer;
     color: aliceblue;
 }
 
-#location{
+.light-mode #location{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    font-weight: bold;
+    font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;	
+    color:rgb(0, 0, 0);
+}
+
+.dark-mode #location{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -109,17 +120,18 @@ cursor: pointer;
     
     font-weight: bold;
     font-family:"poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;	
-    color:white;
+    color:rgb(255, 255, 255);
 }
 
 .light-mode #locationTextColor{
-    color: aliceblue;
-    background-image:url('../images/a1.jpeg');
+    color: rgb(0, 0, 0);
+    background-image:url('../images/clouds-3488632_1280.jpg');
     height: auto;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 10px;
+    height: 300px;
     
 }
 
@@ -131,6 +143,7 @@ cursor: pointer;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 10px;
+    height: 300px;
     
 }
 

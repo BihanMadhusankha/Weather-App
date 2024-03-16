@@ -86,6 +86,48 @@ document.getElementById("searchTxt").addEventListener("keypress", async (event) 
                     }
 
                     //End past days
+
+                    let map; // Declare a variable to hold the map instance
+
+                    document.getElementById("searchBtn").addEventListener("click", async () => {
+                        try {
+                            const searchVal = document.getElementById("searchTxt").value;
+                            const { latitude, longitude } = await fetchLocationData(searchVal);
+
+                            // Check if map is already initialized
+                            if (!map) {
+                                // If map is not initialized, create a new one
+                                map = L.map('map').setView([latitude, longitude], 13);
+
+                                // Add the OpenStreetMap tile layer
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                }).addTo(map);
+                            } else {
+                                // If map is already initialized, just update its view
+                                map.setView([latitude, longitude], 13);
+                            }
+
+                            // Add a marker to the map
+                            L.marker([latitude, longitude]).addTo(map)
+                                .bindPopup(`Location: ${searchVal}`)
+                                .openPopup();
+                        } catch (error) {
+                            console.error('Error during fetch:', error);
+                            // Handle errors
+                        }
+                    });
+
+                    async function fetchLocationData(searchVal) {
+                        try {
+                            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`);
+                            const data = await response.json();
+                            return { latitude: data.location.lat, longitude: data.location.lon };
+                        } catch (error) {
+                            console.error('Error fetching location data:', error);
+                            throw error; // Rethrow the error to handle it elsewhere if needed
+                        }
+                    }
                 })
         } catch (error) {
             console.error('Error during fetch:', error);
@@ -237,12 +279,13 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                     try {
                         const searchVal = document.getElementById("searchTxt").value;
                         const { latitude, longitude } = await fetchLocationData(searchVal);
-                        
+
                         // Check if map is already initialized
                         if (!map) {
                             // If map is not initialized, create a new one
+                           
                             map = L.map('map').setView([latitude, longitude], 13);
-                            
+
                             // Add the OpenStreetMap tile layer
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -251,7 +294,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                             // If map is already initialized, just update its view
                             map.setView([latitude, longitude], 13);
                         }
-                
+
                         // Add a marker to the map
                         L.marker([latitude, longitude]).addTo(map)
                             .bindPopup(`Location: ${searchVal}`)
@@ -261,7 +304,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                         // Handle errors
                     }
                 });
-                
+
                 async function fetchLocationData(searchVal) {
                     try {
                         const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`);
@@ -272,9 +315,9 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                         throw error; // Rethrow the error to handle it elsewhere if needed
                     }
                 }
-                
-                
-                
+
+
+
             })
 
 
@@ -455,6 +498,19 @@ function currentLocation() {
 
                 currentDays.setDate(currentDays.getDate() - 1);
             }
+
+            var map = L.map('map').setView([80.0032, 6.8433], 13);
+
+            // Add the OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add a marker to the map
+            var marker = L.marker([80.0032, 6.8433]).addTo(map);
+
+            // Add a popup to the marker
+            marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 
         })
 
