@@ -56,9 +56,9 @@ https://bihanmadhusankha.github.io/Weather-App/
 
 ## <a name="documentation">Documentation</a> 
 
-- [Design and Prototyping (1).pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622725/Design.and.Prototyping.1.pdf)
+- [Design and Prototyping.pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622725/Design.and.Prototyping.1.pdf)
 
-- [Project Analysis and Planning (1).pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622726/Project.Analysis.and.Planning.1.pdf)
+- [Project Analysis and Planning.pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622726/Project.Analysis.and.Planning.1.pdf)
 
 ## <a name="environment">Environment Variables</a> 
 
