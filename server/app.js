@@ -109,7 +109,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
 
                     const formattedDate = currentDays.toISOString().split('T')[0];
 
-                    fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                    fetch(`https://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                         .then(response => response.json())
                         .then(data => {
                             document.getElementById('fahrenheitBtn').addEventListener('click', () => {
@@ -184,7 +184,7 @@ function currentLocation() {
     let reop = {
         method: 'POST'
     };
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&days=7&aqi=yes&alerts=yes`, reop)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&days=7&aqi=yes&alerts=yes`, reop)
         .then(response => response.json())
         .then(data => {
 
@@ -293,7 +293,7 @@ function currentLocation() {
 
                 const formattedDate = currentDays.toISOString().split('T')[0];
 
-                fetch(`http://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
+                fetch(`https://api.weatherapi.com/v1/history.json?key=f1850d9ec02649c4b0a84749240403&q=${city}&dt=${formattedDate}&aqi=homagama&alerts=yes`)
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('fahrenheitBtn').addEventListener('click', () => {
@@ -341,7 +341,7 @@ function upComingColombo() {
     let reop = {
         method: 'POST'
     };
-    fetch(`http://api.weatherapi.com/v1/current.json?key=f1850d9ec02649c4b0a84749240403&q=${city2}&days=7`, reop)
+    fetch(`https://api.weatherapi.com/v1/current.json?key=f1850d9ec02649c4b0a84749240403&q=${city2}&days=7`, reop)
         .then(response => response.json())
         .then(data => {
 
@@ -371,7 +371,7 @@ function upComingKandy() {
     let reop = {
         method: 'POST'
     };
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${Kandy}&days=7`, reop)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${Kandy}&days=7`, reop)
         .then(response => response.json())
         .then(data => {
 
