@@ -139,22 +139,22 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                 for (let i = 7; i < 22; i += 7) {
                     document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
                     document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
-    
+
                     document.getElementById('fahrenheitBtn').addEventListener('click', () => {
                         document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_f} F`;
                         document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
-    
+
                     });
-    
+
                     document.getElementById('celsiusBtn').addEventListener('click', () => {
                         document.getElementById(`tempT${i}`).innerHTML = `${data.forecast.forecastday[0].hour[i].temp_c} °C`;
                         document.getElementById(`wetherImg${i}`).src = `${data.forecast.forecastday[0].hour[i].condition.icon}`
-    
+
                     });
-    
-    
+
+
                 }
-    
+
 
                 document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
                 document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
@@ -176,14 +176,14 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                                 document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
                                 document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
                                 document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
-    
+
                             });
-    
+
                             document.getElementById('celsiusBtn').addEventListener('click', () => {
                                 document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
                                 document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                                 document.getElementById(`day${i + 1}Img`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
-    
+
                             });
                             document.getElementById(`day${i + 1}`).innerHTML = `${data.forecast.forecastday[0].date}`
                             document.getElementById(`day${i + 1}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
@@ -211,14 +211,14 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                                 document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`
                                 document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_f} F`;
                                 document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
-    
+
                             });
-    
+
                             document.getElementById('celsiusBtn').addEventListener('click', () => {
                                 document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`
                                 document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
                                 document.getElementById(`day${i}AImg`).src = `${data.forecast.forecastday[0].day.condition.icon}`;
-    
+
                             });
                             document.getElementById(`Day${i}`).innerHTML = `${data.forecast.forecastday[0].date}`;
                             document.getElementById(`Day${i}Temp`).innerHTML = `${data.forecast.forecastday[0].day.avgtemp_c} °C`;
@@ -231,11 +231,58 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
                     currentDays.setDate(currentDays.getDate() - 1);
                 }
 
+                let map; // Declare a variable to hold the map instance
+
+                document.getElementById("searchBtn").addEventListener("click", async () => {
+                    try {
+                        const searchVal = document.getElementById("searchTxt").value;
+                        const { latitude, longitude } = await fetchLocationData(searchVal);
+                        
+                        // Check if map is already initialized
+                        if (!map) {
+                            // If map is not initialized, create a new one
+                            map = L.map('map').setView([latitude, longitude], 13);
+                            
+                            // Add the OpenStreetMap tile layer
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
+                        } else {
+                            // If map is already initialized, just update its view
+                            map.setView([latitude, longitude], 13);
+                        }
+                
+                        // Add a marker to the map
+                        L.marker([latitude, longitude]).addTo(map)
+                            .bindPopup(`Location: ${searchVal}`)
+                            .openPopup();
+                    } catch (error) {
+                        console.error('Error during fetch:', error);
+                        // Handle errors
+                    }
+                });
+                
+                async function fetchLocationData(searchVal) {
+                    try {
+                        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=f1850d9ec02649c4b0a84749240403&q=${searchVal}&days=7`);
+                        const data = await response.json();
+                        return { latitude: data.location.lat, longitude: data.location.lon };
+                    } catch (error) {
+                        console.error('Error fetching location data:', error);
+                        throw error; // Rethrow the error to handle it elsewhere if needed
+                    }
+                }
+                
+                
+                
             })
+
+
     } catch (error) {
         console.error('Error during fetch:', error);
     }
 });
+
 
 //digital clock start 
 const hourEl = document.getElementById("hour");
@@ -333,7 +380,7 @@ function currentLocation() {
 
 
             }
-            
+
             document.getElementById("sunrise").innerHTML = `${data.forecast.forecastday[0].astro.sunrise}`
             document.getElementById("sunset").innerHTML = `${data.forecast.forecastday[0].astro.sunset}`
             document.getElementById("dayLength").innerHTML = `${data.location.localtime}`

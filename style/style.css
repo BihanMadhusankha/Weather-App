@@ -350,3 +350,8 @@ cursor: pointer;
     color: #fff;
 
 }
+
+#map {
+    width: 100%;
+    height: 400px;
+}
