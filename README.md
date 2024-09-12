@@ -57,15 +57,16 @@ https://bihanmadhusankha.github.io/Weather-App/
 
 ## <a name="documentation">Documentation</a> 
 
-- [Design and Prototyping.pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622725/Design.and.Prototyping.1.pdf)
+- [Prototype and Wireframes.pdf](https://github.com/user-attachments/files/16978243/Prototype.and.Wireframes.pdf)
 
-- [Project Analysis and Planning.pdf](https://github.com/BihanMadhusankha/Weather-App/files/14622726/Project.Analysis.and.Planning.1.pdf)
+- [Project Analysis and Planning.pdf](https://github.com/user-attachments/files/16978233/Project.Analysis.and.Planning.pdf)
+
 
 ## <a name="environment">Environment Variables</a> 
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`API_KEY`= `f1850d9ec02649c4b0a84749240403`
+`API_KEY`= ``
 
 
 
