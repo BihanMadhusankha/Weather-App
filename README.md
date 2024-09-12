@@ -17,7 +17,7 @@ https://bihanmadhusankha.github.io/Weather-App/
 
 
 ## <a name="screenshots">Screenshots</a> 
-- ![weather](https://github.com/BihanMadhusankha/Weather-App/assets/140598111/83faf678-8416-4a9d-a15e-2c69abd65c8f)
+- ![weather](https://github.com/user-attachments/assets/6fe384ed-4603-4a6e-bf9a-173b5c650506)
 
 
 ## <a name="features">Features</a> 
@@ -28,6 +28,7 @@ https://bihanmadhusankha.github.io/Weather-App/
 - Light/dark mode toggle
 - Live previews
 - Multiple units and formats
+
 
 
 
